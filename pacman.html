@@ -7,10 +7,7 @@
         body {
             margin: 0;
             padding: 0;
-            background-image: url("assets/chicken.png");
-                background-attachment : fixed;
-                background-size : 100% auto;
-            
+            background-color: #000;
         }
       
     </style>
@@ -26,11 +23,8 @@
     
     var score =0;
     var scoreTxt;
-    
-    var bonus=0;
-    var bonusTxt;
         
-    var life=3;
+    var life=4;
     var lifeTxt;
      
     var game = new Phaser.Game(448, 496, Phaser.AUTO);
@@ -126,8 +120,7 @@
             this.move(Phaser.LEFT);
             
             scoreTxt = game.add.text(30, 0,'Score: 0', {font: '20px 	Lucida Console',  fill: '#FFFFFF'});
-            bonusTxt = game.add.text(190,0,'Bonus: 0', {font: '20px 	Lucida Console',  fill: '#FFFFFF'});
-            lifeTxt = game.add.text(330,0,'Life: 3', {font: '20px 	Lucida Console',  fill: '#FFFFFF'});
+            lifeTxt = game.add.text(330,0,'Life: 4', {font: '20px 	Lucida Console',  fill: '#FFFFFF'});
 
         },
 
@@ -135,18 +128,26 @@
 
             if (this.cursors.left.isDown && this.current !== Phaser.LEFT)
             {
+                var audio = new Audio('assets/chicken_sound.mp3');
+                audio.play()
                 this.checkDirection(Phaser.LEFT);
             }
             else if (this.cursors.right.isDown && this.current !== Phaser.RIGHT)
             {
+                var audio = new Audio('assets/chicken_sound.mp3');
+                audio.play()
                 this.checkDirection(Phaser.RIGHT);
             }
             else if (this.cursors.up.isDown && this.current !== Phaser.UP)
             {
+                var audio = new Audio('assets/chicken_sound.mp3');
+                audio.play()
                 this.checkDirection(Phaser.UP);
             }
             else if (this.cursors.down.isDown && this.current !== Phaser.DOWN)
             {
+                var audio = new Audio('assets/chicken_sound.mp3');
+                audio.play()
                 this.checkDirection(Phaser.DOWN);
             }
             else
