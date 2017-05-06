@@ -76,7 +76,7 @@
             this.load.crossOrigin = 'anonymous';
 
             this.load.image('dot', 'assets/egg.png');
-            this.load.image('dot2', 'assets/bonusegg.png');
+            this.load.image('bonusegg', 'assets/bonusegg.png');
             this.load.image('tiles', 'assets/pacman-tiles.png');
             this.load.spritesheet('pacman', 'assets/sicario.png', 30, 30);
             this.load.tilemap('map', 'assets/pacman-map.json', null, Phaser.Tilemap.TILED_JSON);
@@ -96,14 +96,14 @@
             this.dots2 this.add.physicsGroup();
 
             this.map.createFromTiles(7, this.safetile, 'dot', this.layer, this.dots);
-            this.map.createFromTiles(35, this.safetile, 'dot2, this.layer, this.dots2;
+            this.map.createFromTiles(35, this.safetile, 'bonusegg, this.layer, this.bonusegg;
 
             //  The dots will need to be offset by 6px to put them back in the middle of the grid
             this.dots.setAll('x', 6, false, false, 1);
             this.dots.setAll('y', 6, false, false, 1);
 
-            this.dots2setAll('x', 6, false, false, 1);
-            this.dots2setAll('y', 6, false, false, 1);
+            this.bonusegg.setAll('x', 6, false, false, 1);
+            this.bonusegg.setAll('y', 6, false, false, 1);
             //  Pacman should collide with everything except the safe tile
             this.map.setCollisionByExclusion([this.safetile], true, this.layer);
 
@@ -263,8 +263,8 @@
 
         },
         
-        eatDot2: function (pacman, dot2) {
-           dot2.kill();
+        eatbonusegg: function (pacman, dot2) {
+           bonusegg.kill();
            bonus += 5;
            bonusTxt.text = 'Bonus : ' + bonus;
            scoreTxt.text = 'Score : ' + bonus;
@@ -283,7 +283,7 @@
           
             this.physics.arcade.collide(this.pacman, this.layer);
             this.physics.arcade.overlap(this.pacman, this.dots, this.eatDot, null, this);
-            this.physics.arcade.overlap(this.pacman, this.dots2, this.eatDot2, null, this);
+            this.physics.arcade.overlap(this.pacman, this.bonusegg, this.eatbonusegg, null, this);
 
             this.marker.x = this.math.snapToFloor(Math.floor(this.pacman.x), this.gridsize) / this.gridsize;
             this.marker.y = this.math.snapToFloor(Math.floor(this.pacman.y), this.gridsize) / this.gridsize;
