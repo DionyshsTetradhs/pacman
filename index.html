@@ -130,26 +130,21 @@
 
             if (this.cursors.left.isDown && this.current !== Phaser.LEFT)
             {
-                var audio = new Audio('assets/chicken_sound.mp3');
-                audio.play()
                 this.checkDirection(Phaser.LEFT);
             }
             else if (this.cursors.right.isDown && this.current !== Phaser.RIGHT)
             {
-                var audio = new Audio('assets/chicken_sound.mp3');
-                audio.play()
+               
                 this.checkDirection(Phaser.RIGHT);
             }
             else if (this.cursors.up.isDown && this.current !== Phaser.UP)
             {
-                var audio = new Audio('assets/chicken_sound.mp3');
-                audio.play()
+                
                 this.checkDirection(Phaser.UP);
             }
             else if (this.cursors.down.isDown && this.current !== Phaser.DOWN)
             {
-                var audio = new Audio('assets/chicken_sound.mp3');
-                audio.play()
+                
                 this.checkDirection(Phaser.DOWN);
             }
             else
