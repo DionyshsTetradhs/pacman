@@ -14,7 +14,20 @@
 </head>
 <body>
 
+    <audio autoplay loop>
+        <source src="assets/Chicken song.mp3" type="audio/mp3">
+    </audio>
+    
     <script type="text/javascript">
+    
+    var score =0;
+    var scoreTxt;
+    
+    var bonus=0;
+    var bonusTxt;
+        
+    var life=3;
+    var lifeTxt;
 
     var game = new Phaser.Game(448, 496, Phaser.AUTO);
 
@@ -63,6 +76,7 @@
             this.load.crossOrigin = 'anonymous';
 
             this.load.image('dot', 'assets/egg.png');
+            this.load.image('dot1', 'assets/bonusegg.png');
             this.load.image('tiles', 'assets/pacman-tiles.png');
             this.load.spritesheet('pacman', 'assets/sicario.png', 30, 30);
             this.load.tilemap('map', 'assets/pacman-map.json', null, Phaser.Tilemap.TILED_JSON);
@@ -79,13 +93,17 @@
             this.layer = this.map.createLayer('Pacman');
 
             this.dots = this.add.physicsGroup();
+            this.dots1 = this.add.physicsGroup();
 
             this.map.createFromTiles(7, this.safetile, 'dot', this.layer, this.dots);
+            this.map.createFromTiles(35, this.safetile, 'dot1', this.layer, this.dots1);
 
             //  The dots will need to be offset by 6px to put them back in the middle of the grid
             this.dots.setAll('x', 6, false, false, 1);
             this.dots.setAll('y', 6, false, false, 1);
 
+            this.dots1.setAll('x', 6, false, false, 1);
+            this.dots1.setAll('y', 6, false, false, 1);
             //  Pacman should collide with everything except the safe tile
             this.map.setCollisionByExclusion([this.safetile], true, this.layer);
 
@@ -101,6 +119,10 @@
 
             this.pacman.play('munch');
             this.move(Phaser.LEFT);
+            
+            scoreTxt = game.add.text(30, 0,'Score: 0', {font: '20px 	Lucida Console',  fill: '#FFFFFF'});
+            bonusTxt = game.add.text(190,0,'Bonus: 0', {font: '20px 	Lucida Console',  fill: '#FFFFFF'});
+            lifeTxt = game.add.text(330,0,'Life: 3', {font: '20px 	Lucida Console',  fill: '#FFFFFF'});
 
         },
 
@@ -108,18 +130,26 @@
 
             if (this.cursors.left.isDown && this.current !== Phaser.LEFT)
             {
+                var audio = new Audio('assets/chicken_sound.mp3');
+                audio.play()
                 this.checkDirection(Phaser.LEFT);
             }
             else if (this.cursors.right.isDown && this.current !== Phaser.RIGHT)
             {
+                var audio = new Audio('assets/chicken_sound.mp3');
+                audio.play()
                 this.checkDirection(Phaser.RIGHT);
             }
             else if (this.cursors.up.isDown && this.current !== Phaser.UP)
             {
+                var audio = new Audio('assets/chicken_sound.mp3');
+                audio.play()
                 this.checkDirection(Phaser.UP);
             }
             else if (this.cursors.down.isDown && this.current !== Phaser.DOWN)
             {
+                var audio = new Audio('assets/chicken_sound.mp3');
+                audio.play()
                 this.checkDirection(Phaser.DOWN);
             }
             else
@@ -221,6 +251,10 @@
         eatDot: function (pacman, dot) {
 
             dot.kill();
+            score += 1;
+            scoreTxt.text = 'Score : ' + score;
+            var audio = new Audio('assets/egg_pickup.mp3');
+            audio.play()
 
             if (this.dots.total === 0)
             {
@@ -228,11 +262,28 @@
             }
 
         },
+        
+        eatDot1: function (pacman, dot1) {
+           dot1.kill();
+           bonus += 5;
+           bonusTxt.text = 'Bonus : ' + bonus;
+           scoreTxt.text = 'Score : ' + bonus;
+            
+           var audio = new Audio('assets/bonusegg.mp3');
+           audio.play()
+           
+           if (this.dot.total === 0)
+           {
+               this.dots.callAll('revive');
+           }
+           
+        },
 
         update: function () {
           
             this.physics.arcade.collide(this.pacman, this.layer);
             this.physics.arcade.overlap(this.pacman, this.dots, this.eatDot, null, this);
+            this.physics.arcade.overlap(this.pacman, this.dots1, this.eatDot1, null, this);
 
             this.marker.x = this.math.snapToFloor(Math.floor(this.pacman.x), this.gridsize) / this.gridsize;
             this.marker.y = this.math.snapToFloor(Math.floor(this.pacman.y), this.gridsize) / this.gridsize;
